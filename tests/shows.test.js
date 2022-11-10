@@ -18,11 +18,17 @@ describe("testing /shows router", () => {
     expect(res.statusCode).toBe(200);
   });
 
-  test("/shows/1 get request returns the show record of id 1", async () => {
+  test("/shows/1 get request returns the show record with id 1", async () => {
     const res = await request(app).get("/shows/1");
 
     expect(res._body.id).toBe(1);
     expect(res._body.title).toEqual("King of Queens");
+  });
+
+  test("/shows/not a valid id get request returns the code 404", async () => {
+    const res = await request(app).get("/shows/not a valid id");
+
+    expect(res.statusCode).toBe(404);
   });
 
   test("/shows/genres/Comedy get request will return the of all shows with genre Comedy", async () => {

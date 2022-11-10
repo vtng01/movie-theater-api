@@ -3,6 +3,10 @@ const { User, Show } = require("../models");
 
 const usersRouter = Router();
 
+usersRouter.get("/health", (req, res) => {
+  res.sendStatus(200);
+});
+
 usersRouter.get("/", async (req, res) => {
   res.json(await User.findAll());
 });
@@ -24,7 +28,7 @@ usersRouter.get("/:id/shows", async (req, res) => {
     },
   });
 
-  if (shows) {
+  if (shows.length > 0) {
     res.json(shows);
   } else {
     res.sendStatus(404);
