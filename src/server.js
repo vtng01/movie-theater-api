@@ -9,9 +9,9 @@ app.use(express.json());
 app.use("/users", usersRouter);
 app.use("/shows", showsRouter);
 
-app.listen(port, async () => {
-  console.log(`listening to port: ${port}`);
-  await seed();
-});
+// app.listen(port, async () => {
+//   console.log(`listening to port: ${port}`);
+//   await seed();
+// });
 
 module.exports = app;

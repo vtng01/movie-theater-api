@@ -3,8 +3,12 @@ const { Show } = require("../models");
 const { body, validationResult } = require("express-validator");
 const showsRouter = Router();
 
+showsRouter.get("/health", (req, res) => {
+  res.sendStatus(200);
+});
+
 showsRouter.get("/", async (req, res) => {
-  res.json(await Show.findAll());
+  res.send(await Show.findAll());
 });
 
 showsRouter.get("/:id", async (req, res) => {
@@ -48,7 +52,7 @@ showsRouter.put(
     }
 
     const result = await Show.findByPk(req.params.id);
-    console.log(req.body);
+
     if (result) {
       await result.update({
         rating: req.body.rating,
