@@ -26,6 +26,11 @@ describe("testing /users router", () => {
     expect(res._body.username).toEqual("testUser@gmail.com");
   });
 
+  test("/users/notavalidid get request will return code 404", async () => {
+    const res = await request(app).get("/users/notavalidid");
+    expect(res.statusCode).toBe(404);
+  });
+
   test("/users/1/shows get request returns the shows of user record with id 1", async () => {
     const user = await User.findByPk(1);
     const resBefore = await request(app).get("/users/1/shows");

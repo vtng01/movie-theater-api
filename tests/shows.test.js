@@ -37,6 +37,12 @@ describe("testing /shows router", () => {
     expect(res._body.length).toBe(4);
   });
 
+  test("/shows/genres/genreWithNoShows get request will return code 404", async () => {
+    const res = await request(app).get("/shows/genres/genreWithNoShows");
+
+    expect(res.statusCode).toBe(404);
+  });
+
   test("/shows/1/watched put request can update rating of the show with id 1", async () => {
     let show = await Show.findByPk(1);
     const ratingBefore = await show.rating;
@@ -61,6 +67,14 @@ describe("testing /shows router", () => {
     expect(result.statusCode).toBe(400);
   });
 
+  test("/shows/notashowid/watched will result in code 404 as no show is found to update", async () => {
+    const result = await request(app).put("/shows/notashowid/watched").send({
+      rating: 7,
+    });
+
+    expect(result.statusCode).toBe(404);
+  });
+
   test("/shows/1/updates can update status of a movie", async () => {
     let show = await Show.findByPk(1);
     const statusBefore = await show.status;
@@ -80,6 +94,14 @@ describe("testing /shows router", () => {
 
     const result = await request(app).put("/shows/1/updates").send({
       status: "not a valid status input",
+    });
+
+    expect(result.statusCode).toBe(400);
+  });
+
+  test('/shows/1/updates will result in code 400 when the status is not "on-going" or "cancelled" ', async () => {
+    const result = await request(app).put("/shows/1/updates").send({
+      status: "noneoftheabove",
     });
 
     expect(result.statusCode).toBe(400);

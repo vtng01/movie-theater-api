@@ -5,6 +5,7 @@
   "main": "db.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --verbose --collect-coverage",
     "start": "nodemon src/server.js"
   },
   "author": "",
