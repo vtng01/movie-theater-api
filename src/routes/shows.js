@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { Show } = require("../models");
 const { body, validationResult } = require("express-validator");
+const formatGenreInput = require("../middleware");
 const showsRouter = Router();
 
 showsRouter.get("/health", (req, res) => {
@@ -9,6 +10,10 @@ showsRouter.get("/health", (req, res) => {
 
 showsRouter.get("/", async (req, res) => {
   res.send(await Show.findAll());
+});
+
+showsRouter.get("/genres", (req, res) => {
+  res.send(Show.getAttributes().genre.values);
 });
 
 showsRouter.get("/:id", async (req, res) => {
@@ -21,7 +26,7 @@ showsRouter.get("/:id", async (req, res) => {
   }
 });
 
-showsRouter.get("/genres/:category", async (req, res) => {
+showsRouter.get("/genres/:category", formatGenreInput, async (req, res) => {
   const result = await Show.findAll({
     where: {
       genre: req.params.category,
@@ -96,8 +101,9 @@ showsRouter.delete("/:id", async (req, res) => {
 
   if (show) {
     await show.destroy();
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
   }
-
-  res.sendStatus(200);
 });
 module.exports = showsRouter;
