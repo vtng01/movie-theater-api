@@ -4,7 +4,7 @@
   "description": "",
   "main": "db.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:coverage": "jest --verbose --collect-coverage",
     "start": "nodemon src/server.js"
   },
